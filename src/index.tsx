@@ -22,10 +22,8 @@ class JustifiedGrid extends React.Component<Props, State> {
   };
   constructor(props: Props) {
     super(props);
-    this.state = {
-      images: [],
-      gridHeight: 0
-    };
+
+    this.state = this.relayout();
     this.debounceResizeHandler = debounce(this.handleWindowResize, 300);
   }
   handleWindowResize = (): void => {
@@ -64,16 +62,22 @@ class JustifiedGrid extends React.Component<Props, State> {
       style
     });
   }
-  sync() {
+
+  relayout () {
+    let gridHeight = 0;
     const images: ProcessedImage[] = this.process();
 
-    if (!images.length) {
-      this.setState({ images, gridHeight: 0 });
-      return;
+    if (images.length) {
+      const lastImage: ProcessedImage = images[images.length - 1];
+      gridHeight = lastImage.top + lastImage.height;
     }
 
-    const lastImage: ProcessedImage = images[images.length - 1];
-    const gridHeight: number = lastImage.top + lastImage.height;
+    return {images, gridHeight}
+  }
+  
+  sync() {
+    const {images, gridHeight} = this.relayout();
+
     this.setState({ images, gridHeight });
   }
   render() {

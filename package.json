@@ -1,5 +1,5 @@
 {
-  "name": "react-justified-grid",
+  "name": "react-justified-grid-ssr",
   "version": "1.0.0",
   "description": "Rendering grid layout without cropping image",
   "author": "josephj",
